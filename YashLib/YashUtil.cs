@@ -45,7 +45,8 @@ namespace YashLib
 #elif LINUX
                 FileName = "ffmpeg",
 #endif
-                Arguments = $"-i {tempPath} {tempPath.Replace("weba", "m4a")}"
+                Arguments = $"-i {tempPath} {tempPath.Replace("weba", "m4a")}",
+                RedirectStandardError = true
             });
             await proc.WaitForExitAsync();
             File.Delete(tempPath);
