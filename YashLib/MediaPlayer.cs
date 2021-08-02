@@ -16,7 +16,7 @@ namespace YashLib
 #if RELEASE
         const string lib = "UnityMediaPlayer";
 #elif LINUX
-        const string lib = "ASMedia";
+        const string lib = @"libASMedia.so";
 #elif true
         const string lib = "UnityMediaPlayer";
 #endif
