@@ -14,6 +14,9 @@
     <Content Include="UnityMediaPlayer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Linux|AnyCPU'">
     <Content Include="libbass.so">
@@ -31,10 +34,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YashLib\YashLib.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="ffmpeg.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>
