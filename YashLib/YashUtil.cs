@@ -35,12 +35,15 @@ namespace YashLib
 
             await File.WriteAllBytesAsync(tempPath, audioData);
 
+            //So by mistakeIi found out UMP/libASM actually can read weba (Youtubes regular audio format)
+            //though maybe not vp9/some specific opus version, but who knows
+            //To keep in line with the OG yashgen I'm still converting to m4a
             var proc = Process.Start(new ProcessStartInfo
             {
 #if !LINUX
                 FileName = "ffmpeg.exe",
 #elif LINUX
-                FileName = "ffmpeg"
+                FileName = "ffmpeg",
 #endif
                 Arguments = $"-i {tempPath} {tempPath.Replace("weba", "m4a")}"
             });
