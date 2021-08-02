@@ -13,12 +13,10 @@ namespace YashLib
         private GCHandle fftHandle;
         private bool _disposedValue;
 
-#if RELEASE
+#if !LINUX
         const string lib = "UnityMediaPlayer";
 #elif LINUX
         const string lib = @"libASMedia.so";
-#elif true
-        const string lib = "UnityMediaPlayer";
 #endif
 
 

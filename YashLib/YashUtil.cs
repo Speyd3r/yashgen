@@ -37,14 +37,20 @@ namespace YashLib
 
             var proc = Process.Start(new ProcessStartInfo
             {
+#if !LINUX
                 FileName = "ffmpeg.exe",
+#elif LINUX
+                FileName = "ffmpeg"
+#endif
                 Arguments = $"-i {tempPath} {tempPath.Replace("weba", "m4a")}"
             });
             await proc.WaitForExitAsync();
+            File.Delete(tempPath);
             #endregion
+            tempPath = $@"temp\\{id.Value.Value}.m4a";
 
             float duration = default;
-            using (TagLib.File file = TagLib.File.Create(tempPath.Replace("weba", "m4a")))
+            using (TagLib.File file = TagLib.File.Create(tempPath))
             {
                 duration = (float)file.Properties.Duration.TotalSeconds;
             }
@@ -54,13 +60,13 @@ namespace YashLib
                 byte[] yashData = default;
                 using (var mp = new MediaPlayer())
                 {
+                    //Its technically possible to just get the duration from UMP/libASM
                     //duration = mp.GetDuration(tempPath.Replace("weba", "m4a"));
                     var sl = new SongLoader(mp);
-                    var sums = sl.DecodeSongSums(tempPath.Replace("weba", "m4a"));
+                    var sums = sl.DecodeSongSums(tempPath);
                     yashData = GenerateYashFile(sums, duration);
                 }
                 File.Delete(tempPath);
-                File.Delete(tempPath.Replace("weba", "m4a"));
                 return yashData;
             }
             catch (Exception ex)

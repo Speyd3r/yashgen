@@ -7,26 +7,21 @@
     <TargetFramework>net5.0</TargetFramework>
     <Configurations>Debug;Release;Linux</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Linux|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'!='Linux|AnyCPU'">
     <Content Include="bass.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UnityMediaPlayer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <!--<Content Include="youtube-dl.exe">
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Linux|AnyCPU'">
+    <Content Include="libbass.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>-->
+    </Content>
+    <Content Include="libASMedia.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="YoutubeExplode" Version="6.0.5" />
