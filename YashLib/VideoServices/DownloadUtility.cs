@@ -50,6 +50,8 @@ namespace YashLib.VideoServices
                     else curEnd = curEnd + partSize + 1; 
                 }
                 await Task.WhenAll(tasks);
+                if (result.Any(x => x.Value == null))
+                    return default;
 
                 var full = new byte[Convert.ToInt32(size)];
                 var offset = 0;
@@ -61,8 +63,7 @@ namespace YashLib.VideoServices
                     offset += result[i].Length;
                     result.Remove(i);
                 }
-                Console.WriteLine("Expected size: " + raw.Content.Headers.ContentLength);
-                Console.WriteLine("Size got: " + full.Length);
+                Console.WriteLine($"Got {full.Length} bytes");
                 return full;
             }
         }
@@ -77,6 +78,7 @@ namespace YashLib.VideoServices
                     using (var response = await mc.Client.SendAsync(msg, HttpCompletionOption.ResponseHeadersRead))
                     {
                         result.Add(id, await response.Content.ReadAsByteArrayAsync());
+                        Console.WriteLine($"Chunkloader {id} finished");
                     }
                 }
             }

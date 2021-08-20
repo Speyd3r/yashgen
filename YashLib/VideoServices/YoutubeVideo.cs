@@ -15,13 +15,13 @@ namespace YashLib.VideoServices
 {
     public class YoutubeVideo : IVideo
     {
-        private readonly HttpClient _httpClient;
         private readonly YoutubeClient _youtubeClient;
+        private readonly DownloadUtility _downloadUtility;
 
-        public YoutubeVideo(HttpClient httpClient, YoutubeClient youtubeClient)
+        public YoutubeVideo(YoutubeClient youtubeClient, DownloadUtility downloadUtility)
         {
-            this._httpClient = httpClient;
             this._youtubeClient = youtubeClient;
+            this._downloadUtility = downloadUtility;
         }
 
         public async Task<string> GetTempAudioLocationAsync(string url)
@@ -34,8 +34,11 @@ namespace YashLib.VideoServices
             var audioStreams = streams.GetAudioOnlyStreams();
             var audioStream = audioStreams.GetWithHighestBitrate();
 
-            var result = await _httpClient.GetAsync(audioStream.Url, HttpCompletionOption.ResponseHeadersRead);
+            var result = await _downloadUtility.DownloadUrlAsync(audioStream.Url);
+            if (result == default)
+                return default;
             var tempPath = $@"temp\\{vId.Value.Value}.weba";
+            await File.WriteAllBytesAsync(tempPath, result);
 
             Console.WriteLine("Stream downloaded");
             return tempPath;

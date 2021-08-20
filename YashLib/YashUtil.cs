@@ -12,19 +12,21 @@ namespace YashLib
 {
     public class YashUtil
     {
-        private readonly HttpClient _httpClient;
         private readonly YoutubeClient _youtubeClient;
+        private readonly DownloadUtility _downloadUtility;
 
-        public YashUtil(HttpClient httpClient, YoutubeClient youtubeClient = null)
+        public YashUtil(YoutubeClient youtubeClient = null, DownloadUtility downloadUtility = null)
         {
-            this._httpClient = httpClient;
             this._youtubeClient = youtubeClient ?? new YoutubeClient();
+            this._downloadUtility = downloadUtility ?? new DownloadUtility(new HttpClientManager());
         }
         public async Task<byte[]> GenerateYashFileAsync(string url)
         {
-            var yt = new YoutubeVideo(_httpClient, _youtubeClient);
+            var yt = new YoutubeVideo(_youtubeClient, _downloadUtility);
 
             var tempPath = await yt.GetTempAudioLocationAsync(url);
+            if (tempPath == default)
+                return default;
 
             float duration = default;
 

@@ -9,14 +9,26 @@ namespace yashgen
 {
     class Program
     {
-        private const int ExitNoArgs = 3;
-
         static async Task Main(string[] args)
         {
-            var test = new DownloadUtility(new HttpClientManager());
-            //var data = await new HttpClient().GetByteArrayAsync("https://vita.meek.moe/01.%20O-Ku-Ri-Mo-No%20Sunday%21%20%28M%40STER%20VERSION%29.flac");
-            var data = await test.DownloadUrlAsync("https://vita.meek.moe/01.%20O-Ku-Ri-Mo-No%20Sunday%21%20%28M%40STER%20VERSION%29.flac");
-            await File.WriteAllBytesAsync(@"test.flac", data);
+            if (args.Length == 0)
+            {
+                Console.WriteLine("No URL specified");
+                Environment.Exit(1);
+            }
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            var util = new YashUtil();
+            var data = await util.GenerateYashFileAsync(args[0]);
+            if (data == default)
+            {
+                Console.WriteLine("Error downloading data");
+                Environment.Exit(2);
+            }
+            await File.WriteAllBytesAsync(@"A.yash", data);
+            sw.Stop();
+            Console.WriteLine($"Finished in {sw.ElapsedMilliseconds}");
+            Environment.Exit(0);
         }
 
     }
