@@ -32,3 +32,5 @@ _ReSharper*/
 */.vs/*
 /yashgen/libASMedia.so
 /yashgen/libbass.so
+/.vs/yashgen/config/applicationhost.config
+/.vs/yashgen/v17/.futdcache.v1

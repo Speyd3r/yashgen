@@ -8,6 +8,6 @@ namespace YashLib.VideoServices
 {
     public interface IVideo
     {
-        Task<byte[]> GetAudioBytesAsync(string url);
+        Task<string> GetTempAudioLocationAsync(string url);
     }
 }

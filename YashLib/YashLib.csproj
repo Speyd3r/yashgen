@@ -23,12 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="taglib-sharp">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Audiosurf 2\Audiosurf2_Data\Managed\taglib-sharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="temp\hi.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

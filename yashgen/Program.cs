@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using YashLib;
 using System.IO;
+using YashLib.VideoServices;
 
 namespace yashgen
 {
@@ -12,18 +13,10 @@ namespace yashgen
 
         static async Task Main(string[] args)
         {
-            if (args.Length == 0)
-            {
-                Console.WriteLine("Usage:");
-                Console.WriteLine("yashgen video_id");
-                Environment.Exit(ExitNoArgs);
-            }
-
-            var id = args[0];
-
-            var yl = new YashUtil(new HttpClient());
-            var yash = await yl.GenerateYashFileAsync(id);
-            await File.WriteAllBytesAsync($@"youtube_{id}.yash", yash);
+            var test = new DownloadUtility(new HttpClientManager());
+            //var data = await new HttpClient().GetByteArrayAsync("https://vita.meek.moe/01.%20O-Ku-Ri-Mo-No%20Sunday%21%20%28M%40STER%20VERSION%29.flac");
+            var data = await test.DownloadUrlAsync("https://vita.meek.moe/01.%20O-Ku-Ri-Mo-No%20Sunday%21%20%28M%40STER%20VERSION%29.flac");
+            await File.WriteAllBytesAsync(@"test.flac", data);
         }
 
     }
